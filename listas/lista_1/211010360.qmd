@@ -1,0 +1,134 @@
+---
+title: "Lista 1"
+author: "Leonardo Ramos Barbosa - 211010360"
+date: "`r Sys.Date()`"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    css: ava.css
+editor: visual
+editor_options: 
+  chunk_output_type: inline
+output:
+  html_document:
+    css: ava.css
+    highlight: pygments
+    theme: cerulean
+    charset: "utf-8"
+  word_document: default
+---
+
+# Parte 1
+
+### Exercício 1
+1.  Escreva uma equação matemática de sua escolha via LaTeX, utilizando o operador `$$`.
+
+#### R:
+
+Usamos a seguinte equação para calcular o somatório de `1` a `n` $$\frac{n(n+1)}{2}$$
+
+### Exercício 2
+2.  Defina um vetor `x` contendo uma sequência de 101 números. Em seguida, defina outro vetor `y` que seja o resultado da equação que escolheu no **Exercício 1** aplicada sobre o vertor `x` criado.
+
+#### R:
+
+```{r}
+x <- seq(1, 101)
+x
+```
+
+```{r}
+y <- c()
+for(n in x) {
+  s <- (n * (n + 1)) / 2
+  y <- c(y, s)
+}
+y
+```
+
+# Parte 2
+
+### Exercício 3
+3.  Adicione um link para a página **Wikipedia** de alguma cidade/país que você gostaria de visitar.
+
+#### R:
+
+[China](https://pt.wikipedia.org/wiki/China)
+
+### Exercício 4
+4.  Escreva um breve texto explicando porque você gostaria de visitar a cidade do **Exercício 3** contendo uma palavra em itálico e uma palavra em negrito.
+
+#### R:
+
+A China é um país que me gera muita **curiosidade** pela sua cultura milenar, sua *culinária* e seu alto nível de desenvolvimento tecnológico alcançado em tão pouco tempo.
+
+### Exercício 5
+5.  Adicione uma imagem da cidade escolhida no **Exercício 4**.
+
+#### R:
+
+![Shanghai, China](china.jpg)
+
+### Exercício 6
+6.  Adicione a mesma imagem do **Exercício 5**, mas com tamanho diferente.
+
+#### R:
+
+![Shanghai, China](china.jpg){width="50%"}
+
+# Parte 3
+
+### Exercício 7
+7.  Apresente apenas o comando (ou seja, sem mostrar a saída do código no documento html gerado) de como visualizar as primeiras 6 linhas do banco de dados `iris`.
+
+#### R:
+
+```{r}
+#| eval=FALSE
+head(iris)
+```
+
+### Exercício 8
+8.  Defina e apresente uma matriz numéria denominada `A` composta de 5 linhas e 5 colunas. **Dica:** use a função `runif()` para gerar os números que irão compor a matriz.
+
+#### R:
+
+```{r}
+a <- matrix((runif(25, min=-10, max=10)), nrow=5, ncol=5)
+a
+```
+
+### Exercício 9
+9.  Calcule a inversa da matriz `A`.
+
+#### R:
+
+```{r}
+a_inversa <- solve(a)
+a_inversa
+```
+
+### Exercício 10
+10. Defina e apresente um objeto `R` em formato de *lista* contendo informações de 3 séries que tenha assistido. Especificamente, a primeira entrada da lista deve conter um vetor com o nome das séries escolhidas; o número de temporadas (até hoje) associado a cada série deve ser armazenado como um vetor na segunda entrada; por fim, a terceira entrada deverá armazenar um vetor lógico (T/F) indicando se você "maratonou" quando assistiu a respectiva série.
+
+#### R:
+
+```{r}
+series <- list(c("Breaking Bad", "Mad Men", "The Office"),
+               c(5, 7, 9),
+               c(F, T, T))
+series
+```
+
+### Exercício 11
+11. Defina e apresente um conjunto de dados (objeto do tipo *data.frame*) contendo o nome dos 3 principais personagens de uma de suas séries favoritas na primeira coluna, a idade aproximada daquele personagem na série na segunda coluna e uma coluna que informa se o personagem morreu no decorrer da série.
+
+#### R:
+
+```{r}
+chars <- data.frame(name = c("Michael Scott", "Jim Halpert", "Dwight Schrute"),
+                    age = c(50, 37, 44),
+                    died = c(FALSE, FALSE, FALSE))
+chars
+```
