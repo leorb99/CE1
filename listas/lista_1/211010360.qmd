@@ -4,19 +4,10 @@ author: "Leonardo Ramos Barbosa - 211010360"
 date: "`r Sys.Date()`"
 format:
   html:
+    embed-resources: true
     toc: true
     toc-depth: 3
     css: ava.css
-editor: visual
-editor_options: 
-  chunk_output_type: inline
-output:
-  html_document:
-    css: ava.css
-    highlight: pygments
-    theme: cerulean
-    charset: "utf-8"
-  word_document: default
 ---
 
 # Parte 1
