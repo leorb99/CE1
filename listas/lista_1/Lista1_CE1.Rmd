@@ -1,0 +1,56 @@
+---
+title: "Lista 01"
+author: "Guilherme Rodrigues"
+date: "18 de setembro, 2023"
+output:
+  html_document:
+    css: ava.css
+    highlight: pygments
+    theme: cerulean
+    charset: "utf-8"
+  word_document: default
+---
+
+# Orientações
+
+$$\frac{n(n+1)}{2}$$
+
+#### Instruções gerais
+
+-   O trabalho deve ser realizado individualmente; suspeitas de plágio e compartilhamento de soluções serão tratadas com rigor.
+-   Gere um arquivo **html** da sua avaliação e faça a entrega do arquivo na tarefa disponibilizada no Teams.
+
+### Criação do documento a ser entregue
+
+#### Opção 1: iniciando do zero
+
+Crie um arquivo de R Markdown. Para tal, abra o RStudio, clique no ícone para criar um novo arquivo no canto superior esquerdo e selecione a opção R Markdown. Selecione a opção HTML. Apague todo o conteúdo a partir da linha 8 e salve o arquivo com o nome `sua_matricula.Rmd`. Feito isso, siga as instruções abaixo.
+
+-   Complete o cabeçalho YAML com título, seu nome completo e matrícula e a data de hoje.
+-   Divida o seu arquivo em partes, como neste arquivo. Lembre-se, basta utilizar os `#`'s (hashtags).
+-   Enumere a solução dos exercícios com o mesmo número atribuído neste documento.
+-   Todos os códigos devem estar disponíveis no arquivo, exceto se, no corpo do texto do exercício, for orientado o contrário.
+
+#### Opção 2: iniciando a partir de um arquivo .Rmd
+
+Salve o arquivo *Lista1_CE1.RMD*, disponibilizado na tarefa, com o nome `sua_matricula.Rmd`. Em seguida, edite-o para incluir suas respostas e atualizar o que for preciso. Lembre-se de salvar o arquivo *ava.css* na mesma pasta do arquivo *.Rmd*.
+
+# Parte 1
+
+1.  Escreva uma equação matemática de sua escolha via LaTeX, utilizando o operador `$$`.
+2.  Defina um vetor `x` contendo uma sequência de 101 números. Em seguida, defina outro vetor `y` que seja o resultado da equação que escolheu no **Exercício 1** aplicada sobre o vertor `x` criado.
+
+# Parte 2
+
+3.  Adicione um link para a página **Wikipedia** de alguma cidade/país que você gostaria de visitar.
+4.  Escreva um breve texto explicando porque você gostaria de visitar a cidade do **Exercício 4** contendo uma palavra em itálico e uma palavra em negrito.
+5.  Adicione uma imagem da cidade escolhida no **Exercício 4**.
+6.  Adicione a mesma imagem do **Exercício 6**, mas com tamanho diferente.
+
+# Parte 3
+
+7.  Apresente apenas o comando (ou seja, sem mostrar a saída do código no documento html gerado) de como visualizar as primeiras 6 linhas do banco de dados `iris`.
+8.  Defina e apresente uma matriz numéria denominada `A` composta de 5 linhas e 5 colunas. **Dica:** use a função `runif()` para gerar os números que irão compor a matriz.
+9.  Calcule a inversa da matriz `A`.
+10. Defina e apresente um objeto `R` em formato de *lista* contendo informações de 3 séries que tenha assistido. Especificamente, a primeira entrada da lista deve conter um vetor com o nome das séries escolhidas; o número de temporadas (até hoje) associado a cada série deve ser armazenado como um vetor na segunda entrada; por fim, a terceira entrada deverá armazenar um vetor lógico (T/F) indicando se você "maratonou" quando assistiu a respectiva série.
+11. Defina e apresente um conjunto de dados (objeto do tipo *data.frame*) contendo o nome dos 3 principais personagens de uma de suas séries favoritas na primeira coluna, a idade aproximada daquele personagem na série na segunda coluna e uma coluna que informa se o personagem morreu no decorrer da série.

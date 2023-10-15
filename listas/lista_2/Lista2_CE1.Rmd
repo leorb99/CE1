@@ -1,0 +1,86 @@
+---
+title: "Lista 02: filtragem de dados"
+author: "Guilherme Rodrigues"
+date: "07 de outubro, 2023"
+output:
+  html_document:
+    css: ava.css
+    highlight: pygments
+    theme: cerulean
+    charset: "utf-8"
+  word_document: default
+---
+
+# Orientações
+
+
+#### Instruções gerais
+
+- O trabalho deve ser realizado individualmente; suspeitas de plágio e compartilhamento de soluções serão tratadas com rigor.
+- Gere um arquivo **html** da sua avaliação e faça a entrega do arquivo na tarefa disponibilizada no Teams. 
+
+
+### Criação do documento a ser entregue
+
+#### Opção 1: iniciando do zero
+
+Crie um arquivo de R Markdown. Para tal, abra o RStudio, clique no ícone para criar um novo arquivo no canto superior esquerdo e selecione a opção R Markdown. Selecione a opção HTML. Apague todo o conteúdo a partir da linha 8 e salve o arquivo com o nome `sua_matricula.Rmd`. Feito isso, siga as instruções abaixo.
+
+- Complete o cabeçalho YAML com título, seu nome completo e matrícula e a data de hoje. 
+- Divida o seu arquivo em partes, como neste arquivo. Lembre-se, basta utilizar os `#`'s (hashtags). 
+- Enumere a solução dos exercícios com o mesmo número atribuído neste documento.
+- Todos os códigos devem estar disponíveis no arquivo, exceto se, no corpo do texto do exercício, for orientado o contrário.
+
+
+#### Opção 2: iniciando a partir de um arquivo .Rmd
+
+Salve o arquivo _Lista2_CE1.RMD_, disponibilizado na tarefa, com o nome `sua_matricula.Rmd`. Em seguida, edite-o para incluir suas respostas e atualizar o que for preciso. Lembre-se de salvar o arquivo _ava.css_ na mesma pasta do arquivo _.Rmd_.
+
+
+# Parte 1
+
+Nesta avaliação você terá a oportunidade de avaliar o banco `fifa21.csv` 
+com o ranking dos jogadores disponíveis no jogo. As seguintes variáveis constam
+no banco de dados:
+
+- identificação: `player_id`
+- nome: `name`
+- nacionalidade: `nationality`
+- posição: `position`
+- classificação geral: `overall`
+- idade: `age`
+- acertos: `hits`
+- classificação potencial: `potential`
+- time atual: `team`
+
+Inicialmente, você deve baixar o arquivo pela tarefa no _Microsoft Teams_ e carregá-lo. Para tanto, garanta que o seu arquivo Rmarkdown e o arquivo dos dados estejam no mesmo diretório de trabalho. Em seguida, execute o comando abaixo:
+
+```{r message=FALSE, warning=FALSE}
+# Carregando os pacotes necessários
+if(!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse)
+
+# Carregando os dados para o R
+fifa21 <- read_csv2( "fifa21.csv")
+```
+
+Você pode utilizar os parâmetros `message=FALSE` e `mwarning=FALSE` se não quiser mostrar o carregamento do pacote `tidyverse` na saída do arquivo final.
+
+1. Faça um resumo do banco de dados. Qual a maior classificação geral (coluna _overall_)? E a menor classificação potencial? Dica: Use a função `summary()`.
+
+2. Salve em um objeto `best_players` os dados de jogadores com classificação geral
+acima de 90. Em seguida, apresente esses jogadores. Quem é o melhor jogador no 
+FIFA 21?
+
+3. Qual é a média de acertos (_hits_) dos melhores jogadores (aqueles identificados no item 2)? Compare a média dos melhores jogadores com o valor de acertos do melhor jogador do exercício anterior. 
+
+4. Verifique se algum jogador está sem time. Isto é, na variável `team` consta `NA`.
+
+5. Salve em um objeto `worst_potential` os jogadores com a menor classificação 
+potencial e apresente-os.
+
+6. Quantos goleiros (_GK_) ou atacantes (_ST_) existem no banco de dados?
+
+7. Qual jogador menor de 18 anos tem a maior quantidade de acertos? Qual a sua nacionalidade, seu time e seu número de acertos?
+
+8. Crie _data frames_ `france21` e `italy21` com os dados da França e da Itália, respectivamente. Quantos jogadores há em cada tabela?

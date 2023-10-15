@@ -8,6 +8,8 @@ format:
     toc: true
     toc-depth: 3
     css: ava.css
+    self_contained: yes
+    mode: selfcontained
 ---
 
 # Parte 1

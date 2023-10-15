@@ -1,0 +1,126 @@
+---
+title: "Lista 2"
+author: "Leonardo Ramos Barbosa - 211010360"
+date: "`r Sys.Date()`"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-depth: 3
+    toc-expand: true
+    css: ava.css
+    self_contained: yes
+    mode: selfcontained
+---
+
+```{r message=FALSE, warning=FALSE}
+
+# Carregando os pacotes necessários
+if(!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse)
+
+# Carregando os dados para o R
+fifa21 <- read_csv2( "fifa21.csv")
+```
+
+# Parte 1
+
+### Exercício 1
+
+1. Faça um resumo do banco de dados. Qual a maior classificação geral (coluna _overall_)? E a menor classificação potencial? Dica: Use a função `summary()`.
+
+#### R:
+```{r}
+summ <- summary(fifa21)
+summ
+
+max_overall <- max(fifa21$overall)
+min_potential <- min(fifa21$potential)
+```
+O maior *overall* é `r max_overall` e o menor *potencial* é `r min_potential`.
+
+### Exercício 2
+2. Salve em um objeto `best_players` os dados de jogadores com classificação geral
+acima de 90. Em seguida, apresente esses jogadores. Quem é o melhor jogador no 
+FIFA 21?
+
+#### R:
+```{r}
+best_players <- fifa21[fifa21$overall > 90,]
+best_players[rev(order(best_players$overall)), 
+             c("name", "overall", "nationality", "position", "team", "hits")]
+goat <- best_players[best_players$overall == max(best_players$overall),]
+goat[, c("name", "overall", "nationality", "position", "team")]
+```
+
+### Exercício 3
+3. Qual é a média de acertos (_hits_) dos melhores jogadores (aqueles identificados no item 2)? Compare a média dos melhores jogadores com o valor de acertos do melhor jogador do exercício anterior. 
+
+#### R:
+
+Os melhores jogadores têm média de `r mean(best_players$hits)` hits, enquanto `r goat$name` tem `r goat$hits` hits. Então, podemos ver que `r goat$name` tem quase o dobro de hits que a média dos melhores jogadores do FIFA 21 (incluindo ele).
+
+### Exercício 4
+
+4. Verifique se algum jogador está sem time. Isto é, na variável `team` consta `NA`.
+
+#### R:
+
+```{r}
+free_agents <- fifa21[is.na(fifa21$team),]
+free_agents
+```
+
+Tem `r nrow(free_agents)` jogadores com a informação de time faltando.
+
+### Exercício 5
+
+5. Salve em um objeto `worst_potential` os jogadores com a menor classificação 
+potencial e apresente-os.
+
+#### R:
+```{r}
+worst_potential <- fifa21[fifa21$potential == min_potential,]
+worst_potential
+```
+
+
+### Exercício 6
+
+6. Quantos goleiros (_GK_) ou atacantes (_ST_) existem no banco de dados?
+
+#### R:
+
+```{r}
+goalkeepers <- fifa21[fifa21$position == "GK",]
+strikers <- fifa21[grepl("ST", fifa21$position),]
+```
+Total de goleiros `r nrow(goalkeepers)` e `r nrow(strikers)` atacantes.
+
+### Exercício 7
+
+7. Qual jogador menor de 18 anos tem a maior quantidade de acertos? Qual a sua nacionalidade, seu time e seu número de acertos?
+
+#### R:
+
+```{r}
+golden_boy <- fifa21[fifa21$age < 18,]
+golden_boy <- golden_boy[golden_boy$hits == max(golden_boy$hits),]
+```
+`r golden_boy$name` é o jogador com menos de 18 anos com mais `hits`.
+```{r} 
+golden_boy[, c("nationality", "team", "hits")]
+```
+
+### Exercício 8
+
+8. Crie _data frames_ `france21` e `italy21` com os dados da França e da Itália, respectivamente. Quantos jogadores há em cada tabela?
+
+#### R:
+
+```{r}
+france21 <- data.frame(fifa21[fifa21$nationality == "France",])
+italy21 <- data.frame(fifa21[fifa21$nationality == "Italy",])
+```
+
+O banco de dados tem um total de `r nrow(france21)` jogadores franceses e `r nrow(italy21)` jogadores italianos.
