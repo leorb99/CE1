@@ -1,0 +1,126 @@
+---
+title: "Lista 03: gráficos básicos com ggplot2"
+author: "Guilherme Rodrigues"
+date: "30 de outubro, 2023"
+output:
+  html_document:
+    css: ../ava.css
+    highlight: pygments
+    theme: cerulean
+    charset: utf-8
+---
+
+# Orientações
+
+## Instruções gerais
+
+-   O trabalho deve ser realizado individualmente; suspeitas de plágio e compartilhamento de soluções serão tratadas com rigor.\
+-   Gere um arquivo html da sua avaliação e faça a entrega do arquivo na tarefa disponibilizada no Teams.
+
+## Criação do documento a ser entregue
+
+### Opção 1: iniciando do zero
+
+Crie um arquivo de R Markdown. Para tal, abra o RStudio, clique no ícone para criar um novo arquivo no canto superior esquerdo e selecione a opção R Markdown. Selecione a opção HTML. Apague todo o conteúdo a partir da linha 8 e salve o arquivo com o nome sua_matricula.Rmd. Feito isso, siga as instruções abaixo.
+
+-   Complete o cabeçalho YAML com título, seu nome completo e matrícula e a data de hoje.
+-   Divida o seu arquivo em partes, como neste arquivo. Lembre-se, basta utilizar os \#'s (hashtags).
+-   Enumere a solução dos exercícios com o mesmo número atribuído neste documento.
+-   Todos os códigos devem estar disponíveis no arquivo, exceto se, no corpo do texto do exercício, for orientado o contrário.
+
+### Opção 2: iniciando a partir de um arquivo .Rmd
+
+-   Salve o arquivo Lista1_CE1.RMD, disponibilizado na tarefa, com o nome sua_matricula.Rmd. Em seguida, edite-o para incluir suas respostas e atualizar o que for preciso. Lembre-se de salvar o arquivo ava.css na mesma pasta do arquivo .Rmd.
+
+# Parte 1
+
+Nesta parte você irá trabalhar com o banco `ElephantsMF.csv`. O banco contém variáveis das quais nos interessam:
+
+-   `Age`: Idade (em anos)
+-   `Height`: Altura dos ombros (em centímetros)
+-   `Sex`: Sexo, (0 = female; 1 = male)
+
+Comece carregando o pacote `tidyverse` conforme abaixo. Você pode utilizar o parâmetro `message=FALSE` se não quiser mostrar o carregamento do pacote na saída do arquivo final.
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+1.  Carregue o conjunto de dados `ElephantsMF.csv`, disponível nos arquivos da tarefa no MS Teams, em um novo objeto `elephants`.
+
+2.  Apresente as 10 primeiras e as 10 últimas linhas do banco de dados.
+
+3.  Faça um gráfico de dispersão da idade dos elefantes versus altura. Faça isso separando as cores por sexo. Além disso, as configurações básicas do R usam algumas cores espécificas quando não especificamos as cores que queremos. Sabendo disso, atribua para a variável `Sex` o tipo `factor` e mude as cores do gráfico para as de sua preferência. O que você pode concluir com esse gráfico?
+
+4.  Calcule a altura média e o desvio padrão dos elefantes para cada sexo. As medidas corroboram sua análise gráfica realizada no **Exercício 3**? Reflita e argumente sobre o porquê desse resultado.
+
+5.  Faça um **boxplot** para cada categoria do sexo dos elefantes contra a altura, ordenando as "caixas" por mediana em ordem crescente. O que vê agora?
+
+
+# Parte 2
+
+Agora você irá trabalhar com um banco de dados contendo indicadores de saúde relativos à diabetes. Para isso, é necessário conhecer as váriaveis que serão utilizadas:
+
+-   `Diabetes_012`: Se o indivíduo possui ou não diabetes, (0 = no diabetes; 1 = prediabetes, 2 = diabetes)
+-   `BMI`: Índice de Massa Corporal
+
+6. Carregue o conjunto de dados `diabetes_012_health_indicators_BRFSS2015.csv`, disponível na tarefa do Microsoft Teams, em um novo objeto `diabetes`.
+
+7.  Quais tipos de váriaveis temos no banco de dados?
+
+8.  Atribua à variável `Sex` o tipo `factor` com níveis `F` e `M`. Você pode alterar os níveis da variável por meio do comando `levels` (consulte o **help** para mais detalhes). Depois, faça um gráfico de barras da variável `Diabetes_012` segmentado por sexo. O que você observa?
+
+9. Refaça o gráfico do **Exercício 9** com barras na mesma altura (por frequência relativa). O que você vê agora?
+
+10. Faça um histograma do índice de massa corporal (`BMI`) separado por sexo, em quadros diferentes. O que você vê?
+
+11. Faça um histograma (tipo densidade) do índice de massa corporal (`BMI`) separado por sexo, em quadros diferentes e com a linha da densidade junto ao histograma. Por quê as alturas relativas mudaram?
+
+# Parte 3
+
+Nesta parte iremos refazer um gráfico muito legal criado no documentário [Joy of Stats](https://www.youtube.com/watch?v=jbkSRLYSojo). Para isso precisamos de alguns pacotes adicionais. O pacote `devtools` facilita a vida de quem deseja desenvolver pacotes para o **R** e permite a instalação de pacotes diretamente dos seus repositórios (mesmo que sejam externos ao CRAN). O pacote `gganimate` permite a construção de animações a partir de gráficos gerados via `ggplot2`. O pacote `gapminder` contém os dados que o professor Hans Rosling utilizou em suas animações. O pacote `gifski` converte imagens em animações GIF, ideal para apresentarmos em arquivos **html**, e o pacote `htmltools` facilita a conversão de elementos gráficos do **RMarkdown** para **html**.
+
+Essa é uma oportunidade para apresentar uma forma mais inteligente de instalarmos e carregarmos pacotes no **RMarkdown**. Vamos instalar o pacote gerenciador `pacman`. A linha abaixo verifica se o pacote está instalado no computador. Se não estiver, o **R** o instalará automaticamente.
+
+```{r message=FALSE}
+if ( !require("pacman") ) install.packages( "pacman" )
+```
+
+Agora, o pacote `pacman` tentará, por meio do comando abaixo, carregar os pacotes citados acima. Se os pacotes já estiverem instalados, ele simplesmente os carregará. Caso contrário, ele os instalará e em seguida os carregará.
+
+```{r}
+pacman::p_load( "devtools", "gganimate", "gapminder", "gifski", "htmltools" )
+```
+
+Um outro pacote que iremos necessitar é o `ggflags` que permite acessar as bandeiras dos países do nosso planeta. Esse pacote é um tanto mais chato de instalar. Precisamos acessá-lo diretamento do **GitHub**. Basta utilizar o comando abaixo, caso não possua o pacote instalado. Ele verifica se o pacote está instalado no computador. Caso contrário, instala automaticamente do **GitHub**. Em seguida carrega o pacote.
+
+```{r message=FALSE}
+if ( !require("ggflags") ) devtools::install_github( 'rensa/ggflags', force = T )
+library( ggflags )
+```
+
+Pronto, por meio do código abaixo, você poderá ver uma bela animação dos dados do `gapminder`. Tente compreender o código. É possível realizar muitas melhorias.
+
+```{r}
+data( "gapminder" )
+lybia <- filter( gapminder, country == "Libya" )
+brasil <- filter( gapminder, country == "Brazil" )
+
+g <- ggplot( gapminder, 
+             aes(gdpPercap, lifeExp, size = pop, color=continent, frame = year)) +
+  geom_point( alpha = 0.7 ) +
+  scale_size( range = c(2, 12) ) +
+  labs( title = 'Year: {frame_time}', 
+        x = 'PIB per capita', 
+        y = 'Expectativa de vida' ) +
+  transition_time( year ) +
+  geom_flag( data=brasil, country="br", show.legend=F ) +
+  geom_flag( data=lybia, country="ly", show.legend=F )
+
+animate( g, 
+         height = 4, width = 6, units = "in",
+         nframes=100, fps=10, res = 150,
+         duration = 5, start_pause=5, end_pause=25 )
+```
+
+12. Ao invés de comparar o Brasil (br) à Líbia (ly) apenas, vamos compará-lo a um país de cada continente(Reino Unido (gb), China (cn), Africa do Sul (za) e Nova Zelândia(nz)). Além disso a animação está muito rápida e a escala original não favorece muito a nossa visualização, por isso aumente a duração da animação para 15 segundos e mude a escala dos eixos para `log10`. Pode demorar um pouco para renderizar.
