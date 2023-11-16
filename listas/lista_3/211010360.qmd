@@ -155,15 +155,12 @@ Com esse gráfico, observamos que a doença afeta uma maior porcentagem de pesso
 
 #### R:
 ```{r}
-ggplot(diabetes, aes(x = BMI)) +
-  labs(title = "Histogram of BMI Segmented by Sex") +
-  geom_histogram(binwidth = 2, aes(fill = Sex))
-
 ggplot(diabetes, aes(x = BMI, fill = Sex)) +
   labs(title = "Histogram of BMI Segmented by Sex") +
   geom_histogram(binwidth = 2) +
   facet_wrap(~ Sex) 
 ```
+Aparentemente mais pessoas do sexo feminino terem o `BMI` menor que `25`. Além disso, podemos observar que ambos os sexos têm uma distribuição muito parecida em termos absolutos. 
 
 ### Exercício 11
 
@@ -177,7 +174,9 @@ ggplot(diabetes, aes(x = BMI, fill = Sex)) +
   geom_histogram(binwidth = 2, aes(y = after_stat(density))) +
   geom_density() + 
   facet_wrap(~ Sex) 
+
 ```
+A distribuição das pessoas de sexo feminino é mais variada que as pessoas de sexo masculino, ou seja, o desvio padrão para as pessoas de sexo feminino é maior.
 
 # Parte 3
 
