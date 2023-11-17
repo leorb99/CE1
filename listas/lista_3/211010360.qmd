@@ -32,8 +32,8 @@ library(tidyverse)
 1.  Carregue o conjunto de dados `ElephantsMF.csv`, disponível nos arquivos da tarefa no MS Teams, em um novo objeto `elephants`.
 
 #### R:
-```{r}
-elephants <- read_csv("ElephantsMF.csv")
+```{r, warning=FALSE}
+elephants <- read_csv("ElephantsMF.csv", show_col_types = FALSE)
 elephants
 ```
 
@@ -69,12 +69,17 @@ Pelo gráfico percebe-se que os elefantes machos são mais altos e as fêmeas vi
 
 #### R:
 ```{r}
-average <- by(elephants$Height, elephants$Sex, mean)
-average
-standard_deviation <- by(elephants$Height, elephants$Sex, sd)
-standard_deviation
+mean_male <- mean(elephants$Height[elephants$Sex == "M"], na.rm = T)
+mean_male
+mean_female <- mean(elephants$Height[elephants$Sex == "F"], na.rm = T)
+mean_female
+
+standard_deviation_male <- sd(elephants$Height[elephants$Sex == "M"], na.rm = T)
+standard_deviation_male
+standard_deviation_female <- sd(elephants$Height[elephants$Sex == "F"], na.rm = T)
+standard_deviation_female
 ```
-As médias de altura obtidas não corroboram com a análise de altura do item anterior. No entanto, essa disparidade pode ser atribuída à presença de mais elefantes fêmeas com idades mais avançadas, onde é provável que a altura atinja seu valor máximo. Observe que a média de idade dos elefantes nessa base de dados é ``r mean(elephants$Age)`` e apenas ``r sum(elephants$Sex == "M" & elephants$Age >= mean(elephants$Age))`` machos tem idade superior a média, enquanto temos ``r sum(elephants$Sex == "F" & elephants$Age >= mean(elephants$Age))`` fêmeas acima dessa idade. Além disso, vemos que o desvio padrão para as fêmeas é menor que para os machos, ou seja, a altura dos machos varia mais que a das fêmeas.
+As médias de altura obtidas não corroboram com a análise de altura do item anterior. No entanto, essa disparidade pode ser atribuída à presença de mais elefantes fêmeas com idades mais avançadas, onde é provável que a altura atinja seu valor máximo. Observe que a média de idade dos elefantes nessa base de dados é ``r mean(elephants$Age)`` e apenas ``r sum(elephants$Sex == "M" & elephants$Age > mean(elephants$Age))`` machos tem idade superior a média, enquanto temos ``r sum(elephants$Sex == "F" & elephants$Age > mean(elephants$Age))`` fêmeas acima dessa idade. Além disso, vemos que o desvio padrão para as fêmeas é menor que para os machos, ou seja, a altura dos machos varia mais que a das fêmeas.
 
 ### Exercício 5
 
@@ -100,8 +105,8 @@ Agora você irá trabalhar com um banco de dados contendo indicadores de saúde 
 6. Carregue o conjunto de dados `diabetes_012_health_indicators_BRFSS2015.csv`, disponível na tarefa do Microsoft Teams, em um novo objeto `diabetes`.
 
 #### R:
-```{r}
-diabetes <- read_csv("diabetes_012_health_indicators_BRFSS2015.csv")
+```{r, warning=FALSE}
+diabetes <- read_csv("diabetes_012_health_indicators_BRFSS2015.csv", show_col_types = FALSE)
 diabetes
 ```
 
@@ -160,7 +165,7 @@ ggplot(diabetes, aes(x = BMI, fill = Sex)) +
   geom_histogram(binwidth = 2) +
   facet_wrap(~ Sex) 
 ```
-Aparentemente mais pessoas do sexo feminino terem o `BMI` menor que `25`. Além disso, podemos observar que ambos os sexos têm uma distribuição muito parecida em termos absolutos. 
+Aparentemente mais pessoas do sexo feminino têm o `BMI` menor que `25`. Além disso, podemos observar que ambos os sexos têm uma distribuição muito parecida em termos absolutos. 
 
 ### Exercício 11
 
@@ -174,9 +179,8 @@ ggplot(diabetes, aes(x = BMI, fill = Sex)) +
   geom_histogram(binwidth = 2, aes(y = after_stat(density))) +
   geom_density() + 
   facet_wrap(~ Sex) 
-
 ```
-A distribuição das pessoas de sexo feminino é mais variada que as pessoas de sexo masculino, ou seja, o desvio padrão para as pessoas de sexo feminino é maior.
+A distribuição das pessoas de sexo feminino é mais variada que as pessoas de sexo masculino, ou seja, o desvio padrão para as pessoas de sexo feminino é maior. As alturas relativas mudaram, porque a amostra de pessoas do sexo masculino tem uma variabilidade menor.
 
 # Parte 3
 

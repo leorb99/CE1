@@ -9,7 +9,7 @@ year_calc <- function(birth, zero) {
 data()
 View(starwars)
 ?starwars
-
+?levels
 glimpse(starwars)
 
 filter(starwars, species == "Human")
