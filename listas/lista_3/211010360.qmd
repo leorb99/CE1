@@ -134,8 +134,8 @@ diabetes$Diabetes_012 <- factor(diabetes$Diabetes_012,
                                 levels = c(0, 1, 2),
                                 labels = c("No diabetes", "Prediabetes", "Diabetes"))
 
-ggplot(diabetes, aes(x = Sex)) +
-  geom_bar(aes(fill = Diabetes_012)) +
+ggplot(diabetes, aes(x = Diabetes_012)) +
+  geom_bar(aes(fill = Sex)) +
   labs(title = "Bar Chart of Diabetes Status Segmented by Sex") + 
   scale_y_continuous(labels = scales::number_format(scale = 1e-3, suffix = "k"))
 ```
@@ -148,11 +148,11 @@ A base de dados tem mais pessoas do sexo feminimo e podemos ver que há mais pes
 #### R:
 
 ```{r}
-ggplot(diabetes, aes(x = Sex)) +
+ggplot(diabetes, aes(x = Diabetes_012)) +
   labs(title = "Bar Chart of Diabetes Status Segmented by Sex") +
-  geom_bar(aes(fill = Diabetes_012), position = "fill") 
+  geom_bar(aes(fill = Sex), position = "fill") 
 ```
-Com esse gráfico, observamos que a doença afeta uma maior porcentagem de pessoas do sexo masculino em comparação ao sexo feminino.
+Os níveis 0 e 1 indicam uma proporção maior de mulheres do que homens. Já para o nível 2, a proporção é mais próxima para ambos os sexos.
 
 ### Exercicio 10
 
