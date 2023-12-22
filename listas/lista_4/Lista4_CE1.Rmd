@@ -1,0 +1,99 @@
+---
+title: "Lista 4: transformação de dados."
+author: "Prof. Guilherme Rodrigues"
+date: "01 de dezembro, 2023"
+output:
+  html_document:
+    css: ../ava.css
+    highlight: pygments
+    theme: cerulean
+    charset: utf-8
+---
+
+#### Instruções gerais
+
+- O trabalho deve ser realizado individualmente; suspeitas de plágio e compartilhamento de soluções serão tratadas com rigor.
+- Gere um arquivo **html** ou **pdf** da sua avaliação e faça a entrega do arquivo na tarefa disponibilizada no Teams. 
+
+
+### Criação do documento a ser entregue
+
+#### Opção 1: iniciando do zero
+
+Crie um arquivo de R Markdown. Para tal, abra o RStudio, clique no ícone para criar um novo arquivo no canto superior esquerdo e selecione a opção R Markdown. Selecione a opção HTML. Apague todo o conteúdo a partir da linha 8 e salve o arquivo com o nome `sua_matricula.Rmd`. Feito isso, siga as instruções abaixo.
+
+- Complete o cabeçalho YAML com título, seu nome completo e matrícula e a data de hoje. 
+- Divida o seu arquivo em partes, como neste arquivo. Lembre-se, basta utilizar os `#`'s (hashtags). 
+- Enumere a solução dos exercícios com o mesmo número atribuído neste documento.
+- Todos os códigos devem estar disponíveis no arquivo, exceto se, no corpo do texto do exercício, for orientado o contrário.
+
+
+#### Opção 2: iniciando a partir de um arquivo .Rmd
+
+Salve o arquivo _Lista4_CE1.RMD_, disponibilizado na tarefa, com o nome `sua_matricula.Rmd`. Em seguida, edite-o para incluir suas respostas e atualizar o que for preciso. Lembre-se de salvar o arquivo _ava.css_ na mesma pasta do arquivo _.Rmd_.
+
+
+# Parte 1
+
+Vocês irão trabalhar com alguns bancos de dados nesta avaliação. O banco de dados `def_area_1988_2022.csv` contém dados sobre a área desmatada ($km^2$), entre os anos de 1988 a 2022 para todos
+os estados da Amazônia Legal, organizados pelo Programa de Monitoramento da Floresta Amazônica Brasileira por Satélite ([PRODES](http://www.obt.inpe.br/OBT/assuntos/programas/amazonia/prodes)). O banco de dados `inpe_brazilian_amazon_fires_1999_2022.csv` contém registros da quantidade de focos de incêndio na Amazônia Legal por estado, mês e ano, de 1999 a 2022. O dados são geridos pelo Instituto Nacional de Pesquisas Espaciais (INPE) em seu programa Banco de Dados de Queimada ([BDQ](https://queimadas.dgi.inpe.br/queimadas/bdqueimadas/)). O conjunto de dados `el_nino_la_nina_1999_2022.csv` contém dados sobre ano de início, ano de fim e severidade de dois dos fenômenos climáticos mais importantes _El Niño_ e _La Niña_. Esses dados são organizados pelo [Golden Gate Weather Services](https://ggweather.com/enso/oni.htm). Finalmente, o banco de dados `br_presidents.csv` contém os presidentes brasileiros, por ano, de 1988 a 2022. Este último banco de dados foi resumido em anos pelo Professor James de modo a possibilitar alguma análise anual, conjuntamente aos demais bancos de dados.
+
+Utilize o comando abaixo para carregar o pacote `tidyverse` e carregar os quatro bancos de dados em objetos do `R`.
+
+```{r message=FALSE, warning=FALSE}
+library( tidyverse )
+def_area <- read.csv( "def_area_1988_2022.csv")
+fires_amz <- read.csv( "inpe_brazilian_amazon_fires_1999_2022.csv", check.names = F, sep = ";" )
+phenomenon <- read.csv( "el_nino_la_nina_1999_2022.csv", sep = ";" )
+br_presidents <- read.csv( "br_presidents.csv", sep = ";" )
+```
+
+1. Transforme o conjunto de dados `def_area` de tal modo que cada estado da variável `state` passe a ser uma variável. Chame o novo banco de dados de `def_amz`. *Dica: Os dados estão no formado longo.*
+
+2. Crie uma nova variável no banco de dados `def_amz` chamada `deforestation`, com o desmatamento em toda a Amazônia Legal.
+
+3. Observe que, na variável `ref`, o ano de 2022 apresenta o resultado _until November_. Isso indica que os dados estão disponíveis apenas até 30/11/2022. Nós tentaremos melhorar esses resultados através de uma estimativa. Vamos completar a medida desses anos adicionando o que corresponderia a um mês médio daquele ano. Você pode realizar isso da maneira que preferir, mas abaixo deixo duas sugestões.
+
+Crie um novo *dataframe* auxiliar denominado `def_new_2022`, que terá apenas uma linha. Neste novo conjunto de dados, a primeira coluna deve conter o ano de 2022, e a segunda, o texto _"complete estimate"_. As demais variáveis serão compostas pelos valores do conjunto original para o ano de 2022, acrescidos de 1/11 avos (arredondado para o número inteiro mais próximo) do valor presente. Dessa forma, tentaremos atualizar o valor das variáveis para incluir uma estimativa de dezembro, baseada na média dos meses anteriores. Em seguida, substitua, no banco `def_amz`, a linha do ano de 2022 por `def_new_2022`. 
+
+4. Para o banco de dados `fires_amz`, selecione apenas as variáveis `year` e `total`. Em seguida, mude o nome da variável `total` para `fires`.
+
+5. Selecione apenas as variáveis `year` e `deforestation` do banco de dados `def_amz` e as una aos bancos de dados `fires_amz`, `phenomenon` e `br_presidents`, formando um único banco de dados nomeado `degradation`.
+
+6. Apresente o desflorestamento médio, por governo, em ordem decrescente. O que você avalia?
+
+# Parte 2
+
+Vocês irão aprender aqui como adicionar, aos seus gráficos, linhas verticais por meio da geometria `geom_vline` e textos por meio do comando `annotate`. Lembre-se, para qualquer dúvida sempre há o **help**. O comando abaixo gera um gráfico de linhas ao longo do tempo com linhas verticais pontilhadas exatamente na troca dos governos. Além disso, adicionamos o nome dos presidentes que atuaram durante o período.
+
+```{r}
+def_area %>% 
+  pivot_wider( names_from = "state",
+               values_from = "area" ) %>% 
+  mutate( deforestation = ac + am + ap + ma + mt + pa + ro + rr + to ) %>% 
+  select( year, deforestation ) %>%
+  left_join( fires_amz, by = "year" ) %>%
+  left_join( phenomenon, by = "year" ) %>% 
+  left_join( br_presidents, by = "year" ) %>%
+  ggplot( aes( year, deforestation ) ) +
+  geom_line() +
+  geom_vline( xintercept = c(1990.33, 1993, 1995, 2003, 2011, 2016.67, 2019),
+              color = "magenta", linetype = 3 ) +
+  annotate( "text",
+            x = c(1991.3, 1993.9, 1995.8, 2003.8, 2011.9, 2017.7, 2020.4),
+            y = 31000, 
+            label = c("Collor", "Itamar", "FHC", "Lula", "Dilma", "Temer", "Bolsonaro"),
+            size = 2)
+```
+
+
+_El Niño_ e _La Niña_ são fenômenos climáticos importantes que podem afetar o regime de chuvas e, consequentemente, focos de incêndio e desmatamento. Nos exercícios seguintes, você irão realizar alguma análise, superficial, sobre esses fenômenos.
+
+7. Faça um **boxplot** do fenômeno contra as queimadas a partir de 1999 (uma vez que não há dados anteriormente a essa data). O que você observa?
+
+8. Atribua o tipo `factor` à variável `severity`. Em seguida ordene os níveis da variável por meio do comando `ordered`. Consulte o **help**. Você também pode utilizar as funções do pacote `forcats` como o `fct_relevel()`, ou a função `factor()`acrescentando o parâmetro "levels". 
+
+9. Faça um **boxplot** da severidade contra as queimadas separado por fenômeno. Lembre-se que não há dados antes de 1999. O que você observa?
+
+10. Apresente um gráfico com a severidade de cada fenômeno, para cada governo, a partir de 1999. Para uma melhor visualização adicione os argumentos `fig.height=4` e `fig.width=10` ao _chunk_.
+
